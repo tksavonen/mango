@@ -1,4 +1,5 @@
 use std::{io};
+use std::env;
 use chrono::Local;
 use chrono::{DateTime, Utc};
 use finnhub::models::stock::{RecommendationTrend};
@@ -7,12 +8,12 @@ use finnhub::{FinnhubClient};
 mod display;
 use display::{print_price, print_percent, print_i32_value};
 
-const API_KEY: &str = "d5fpmp1r01qnjhodr1d0d5fpmp1r01qnjhodr1dg";
-
 // MAIN FUNCTION
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
-    let client = FinnhubClient::new(API_KEY);
+    let api_key = env::var("FINNHUB_API_KEY")
+    .expect("FINNHUB_API_KEY environment variable not set");
+    let client = FinnhubClient::new(&api_key);
 
     // Welcoming messages
     println!("\nrunning mango v.1.0");
